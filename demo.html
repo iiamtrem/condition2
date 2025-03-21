@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7e6;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            width: 450px;
+            padding: 20px;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: green;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkgreen;
+        }
+        .result {
+            font-size: 18px;
+            color: darkgreen;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #f0f0f0;
+        }
+        .remove-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .remove-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Salary</h2>
+
+        <label for="years">Số năm làm việc:</label>
+        <input type="number" id="years" min="0" step="0.1" placeholder="Nhập số năm">
+
+        <table id="shiftTable">
+            <tr>
+                <th>Ca làm việc</th>
+                <th>Số giờ</th>
+                <th>Xóa</th>
+            </tr>
+            <tr>
+                <td>
+                    <select class="shift">
+                        <option value="sáng">Ca Sáng</option>
+                        <option value="chiều">Ca Chiều</option>
+                        <option value="đêm">Ca Đêm</option>
+                    </select>
+                </td>
+                <td><input type="number" class="hours" min="1" step="0.5" placeholder="Nhập số giờ"></td>
+                <td><button class="remove-btn" onclick="xoaDong(this)">X</button></td>
+            </tr>
+        </table>
+
+        <button onclick="themDong()">Thêm Ca</button>
+        <button onclick="tinhLuong()">Tính Tổng Lương</button>
+
+        <p class="result" id="salaryResult"></p>
+    </div>
+
+    <script>
+        function themDong() {
+            let table = document.getElementById("shiftTable");
+            let row = table.insertRow(-1);
+            
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+
+            cell1.innerHTML = `<select class="shift">
+                                    <option value="sáng">Ca Sáng</option>
+                                    <option value="chiều">Ca Chiều</option>
+                                    <option value="đêm">Ca Đêm</option>
+                               </select>`;
+            cell2.innerHTML = `<input type="number" class="hours" min="1" step="0.5" placeholder="Nhập số giờ">`;
+            cell3.innerHTML = `<button class="remove-btn" onclick="xoaDong(this)">X</button>`;
+        }
+
+        function xoaDong(button) {
+            let row = button.parentNode.parentNode;
+            let table = document.getElementById("shiftTable");
+
+            if (table.rows.length > 2) {
+                table.deleteRow(row.rowIndex);
+            } else {
+                alert("Phải có ít nhất một ca làm việc!");
+            }
+        }
+
+        function tinhLuong() {
+            let years = parseFloat(document.getElementById("years").value);
+            let shifts = document.querySelectorAll(".shift");
+            let hours = document.querySelectorAll(".hours");
+
+            if (isNaN(years) || years < 0) {
+                alert("Vui lòng nhập số năm hợp lệ!");
+                return;
+            }
+
+            let salaryPerHour = {
+                "sáng": 50000,
+                "chiều": 55000,
+                "đêm": 70000
+            };
+
+            let totalSalary = 0;
+
+            for (let i = 0; i < shifts.length; i++) {
+                let shift = shifts[i].value;
+                let hour = parseFloat(hours[i].value);
+
+                if (isNaN(hour) || hour <= 0) {
+                    alert("Vui lòng nhập số giờ hợp lệ!");
+                    return;
+                }
+
+                let baseSalary;
+                if (hour > 8) {
+                    let overtime = hour - 8;
+                    baseSalary = (8 * salaryPerHour[shift]) + (overtime * salaryPerHour[shift] * 1.2);
+                } else {
+                    baseSalary = hour * salaryPerHour[shift];
+                }
+
+                totalSalary += baseSalary;
+            }
+
+            let bonus = 0;
+            if (years >= 1 && years <= 3) bonus = 0.05 * totalSalary;
+            else if (years > 3) bonus = 0.10 * totalSalary;
+
+            totalSalary += bonus;
+
+            document.getElementById("salaryResult").innerText = "Tổng lương: " + totalSalary.toLocaleString("vi-VN") + " VNĐ";
+        }
+    </script>
+</body>
+</html>
