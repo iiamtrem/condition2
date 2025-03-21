@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #e8f5e9; } /* Nền xanh lá nhạt */
+        .card {
+            border: 2px solid #4CAF50;
+            box-shadow: 0px 4px 8px rgba(76, 175, 80, 0.5);
+        }
+        .form-control:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px #4CAF50;
+        }
+        .btn-success {
+            background-color: #4CAF50;
+            border: none;
+        }
+        .btn-success:hover {
+            background-color: #388E3C;
+        }
+        .alert-info {
+            background-color: #A5D6A7;
+            color: #1B5E20;
+            border-color: #66BB6A;
+        }
+        .alert-danger {
+            background-color: #FFCDD2;
+            color: #B71C1C;
+            border-color: #E57373;
+        }
+    </style>
+</head>
+
+<body class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h2 class="mb-3">Tính số ngày trong tháng</h2>
+        <div class="mb-3">
+            <label for="month" class="form-label">Nhập số tháng</label>
+            <input type="number" id="month" class="form-control" min="1" max="12">
+        </div>
+        <button class="btn btn-primary" onclick="calculateDay()">Tính số ngày</button>
+        <p id="result" class="mt-3 alert alert-info d-none"></p>
+    </div>
+
+    <script>
+        function calculateDay() {
+            let month = parseInt(document.getElementById("month").value);
+            let result = document.getElementById("result");
+
+            if (isNaN(month) || month < 1 || month > 12) {
+                result.innerHTML = "Nhập số tháng hợp lệ!";
+                result.classList.remove("d-none", "alert-info");
+                result.classList.add("alert-danger");
+                return;
+            }
+
+            let days;
+            switch (month) {
+                case 4: case 6: case 9: case 11:
+                    days = "30 ngày";
+                    break;
+                case 2:
+                    days = "28 hoặc 29 ngày";
+                    break;
+                default:
+                    days = "31 ngày";
+            }
+
+            result.innerHTML = `Tháng ${month} có ${days}.`;
+            result.classList.remove("d-none", "alert-danger");
+            result.classList.add("alert-info");
+        }
+    </script>
+</body>
+
+</html>

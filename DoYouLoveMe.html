@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Love Me?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            margin: 50px;
+        }
+        .question {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            border-radius: 5px;
+        }
+        .yes {
+            background-color: #4caf50;
+            color: white;
+        }
+        .yes:hover {
+            background-color: #388e3c;
+        }
+        .no {
+            position: absolute;
+            background-color: #d32f2f;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question">💚 Do you love me? 💚</div>
+    <div class="buttons">
+        <button class="yes" onclick="sayYes()">YES</button>
+        <button class="no" id="noButton" onmouseover="moveNo()">NO</button>
+    </div>
+
+    <script>
+        function sayYes() {
+            alert("ôk cám ơn");
+        }
+
+        function moveNo() {
+            let button = document.getElementById("noButton");
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
+            button.style.left = x + "px";
+            button.style.top = y + "px";
+        }
+    </script>
+
+</body>
+</html>

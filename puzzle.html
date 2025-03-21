@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Puzzle</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        h2 {
+            color: #2E7D32;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+            margin: 20px auto;
+            width: 320px;
+        }
+        .tile {
+            width: 100px;
+            height: 100px;
+            background-size: 300px 300px;
+            cursor: pointer;
+            border: 2px solid #4CAF50;
+        }
+        .empty {
+            background: #ddd;
+            border: 2px dashed #aaa;
+            cursor: default;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #388E3C;
+        }
+    </style>
+</head>
+<body>
+    <h2>Game Puzzle</h2>
+    <div class="container" id="puzzleBoard"></div>
+    <button onclick="shuffleTiles()">Xáo trộn</button>
+    
+    <script>
+        const gridSize = 3;
+        let board = [];
+        let emptyTile = { x: 2, y: 2 };
+        let selectedImage = "download.jpg";
+
+        function createPuzzle() {
+            const container = document.getElementById("puzzleBoard");
+            container.innerHTML = "";
+            board = [];
+
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    let tile = document.createElement("div");
+                    tile.classList.add("tile");
+                    tile.style.backgroundImage = `url(${selectedImage})`;
+                    tile.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
+                    tile.dataset.row = row;
+                    tile.dataset.col = col;
+
+                    if (row === 2 && col === 2) {
+                        tile.classList.add("empty");
+                        tile.style.backgroundImage = "none";
+                        emptyTile = { x: row, y: col };
+                    } else {
+                        tile.addEventListener("click", moveTile);
+                    }
+
+                    container.appendChild(tile);
+                    board.push({ row, col, tile });
+                }
+            }
+        }
+
+        function moveTile() {
+            let row = parseInt(this.dataset.row);
+            let col = parseInt(this.dataset.col);
+
+            if ((Math.abs(row - emptyTile.x) === 1 && col === emptyTile.y) ||
+                (Math.abs(col - emptyTile.y) === 1 && row === emptyTile.x)) {
+                
+                swapTiles(this, emptyTile);
+                emptyTile.x = row;
+                emptyTile.y = col;
+
+                if (checkWin()) {
+                    setTimeout(() => alert("Chúc mừng! Bạn đã hoàn thành bức tranh!"), 200);
+                }
+            }
+        }
+
+        function swapTiles(tile, empty) {
+            let emptyDiv = document.querySelector(".empty");
+
+            emptyDiv.style.backgroundImage = tile.style.backgroundImage;
+            emptyDiv.style.backgroundPosition = tile.style.backgroundPosition;
+            emptyDiv.classList.remove("empty");
+            tile.style.backgroundImage = "none";
+            tile.classList.add("empty");
+
+            tile.dataset.row = empty.x;
+            tile.dataset.col = empty.y;
+            emptyDiv.dataset.row = tile.dataset.row;
+            emptyDiv.dataset.col = tile.dataset.col;
+        }
+
+        function shuffleTiles() {
+            for (let i = 0; i < 50; i++) {
+                let neighbors = board.filter(tile =>
+                    (Math.abs(tile.row - emptyTile.x) === 1 && tile.col === emptyTile.y) ||
+                    (Math.abs(tile.col - emptyTile.y) === 1 && tile.row === emptyTile.x)
+                );
+                let randomTile = neighbors[Math.floor(Math.random() * neighbors.length)];
+                moveTile.call(randomTile.tile);
+            }
+        }
+
+        function checkWin() {
+            return board.every(tile => 
+                parseInt(tile.tile.dataset.row) === tile.row && 
+                parseInt(tile.tile.dataset.col) === tile.col
+            );
+        }
+
+        window.onload = createPuzzle;
+    </script>
+</body>
+</html>

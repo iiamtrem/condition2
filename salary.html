@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7e6;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            width: 400px;
+            padding: 20px;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: green;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkgreen;
+        }
+        .result {
+            font-size: 18px;
+            color: darkgreen;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Salary</h2>
+        <label for="years">Số năm làm việc:</label>
+        <input type="number" id="years" min="0" step="0.1" placeholder="Nhập số năm">
+
+        <label for="shift">Ca làm việc:</label>
+        <select id="shift">
+            <option value="sáng">Ca Sáng</option>
+            <option value="chiều">Ca Chiều</option>
+            <option value="đêm">Ca Đêm</option>
+        </select>
+
+        <label for="hours">Số giờ làm việc:</label>
+        <input type="number" id="hours" min="1" step="0.5" placeholder="Nhập số giờ">
+
+        <button onclick="tinhLuong()">Tính Lương</button>
+        <p class="result" id="salaryResult"></p>
+    </div>
+
+    <script>
+        function tinhLuong() {
+            let years = parseFloat(document.getElementById("years").value);
+            let shift = document.getElementById("shift").value;
+            let hours = parseFloat(document.getElementById("hours").value);
+
+            let salaryPerHour;
+            if (shift === "sáng") salaryPerHour = 50000;
+            else if (shift === "chiều") salaryPerHour = 55000;
+            else if (shift === "đêm") salaryPerHour = 70000;
+
+            let baseSalary;
+            if (hours > 8) {
+                let overtime = hours - 8;
+                baseSalary = (8 * salaryPerHour) + (overtime * salaryPerHour * 1.2);
+            } else {
+                baseSalary = hours * salaryPerHour;
+            }
+
+            let bonus = 0;
+            if (years >= 1 && years <= 3) bonus = 0.05 * baseSalary;
+            else if (years > 3) bonus = 0.10 * baseSalary;
+
+            let totalSalary = baseSalary + bonus;
+
+            document.getElementById("salaryResult").innerText = "Tổng lương: " + totalSalary.toLocaleString("vi-VN") + " VNĐ";
+        }
+    </script>
+    </div>
+
+</body>
+</html>

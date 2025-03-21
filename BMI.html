@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7e9;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 128, 0, 0.2);
+            max-width: 400px;
+            margin: auto;
+            border-left: 5px solid green;
+            border-right: 5px solid green;
+        }
+
+        h2 {
+            color: #006400;
+        }
+
+        label {
+            font-weight: bold;
+            color: #008000;
+        }
+
+        input {
+            width: 80%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 2px solid #008000;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #006400;
+            box-shadow: 0px 0px 5px rgba(0, 128, 0, 0.5);
+        }
+
+        button {
+            background: #008000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #006400;
+        }
+
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <label for="weight">Cân nặng</label>
+    <input type="number" id="weight">
+
+    <label for="height">Chiều cao</label>
+    <input type="number" id="height"><br><br>
+
+    <button onclick="calculate()">Phân loại</button>
+    <h3 id="result">Kết quả: </h3>
+    <script>
+        function calculate() {
+        let weight = parseFloat(document.getElementById("weight").value);
+        let height = parseFloat(document.getElementById("height").value);
+        let result = document.getElementById("result");
+
+        let BMI = weight / (height * height);
+        let phanLoai;
+
+        if (BMI < 18.5) {
+            phanLoai = "Underweight";
+        } else if (18.5 <= BMI && BMI < 25.0) {
+            phanLoai = "Normal";
+        } else if (25.0 <= BMI && BMI < 30.0) {
+            phanLoai = "Overweight";
+        } else {
+            phanLoai = "Obese";
+        }
+
+        result.innerHTML = `Chỉ số BMI: ${BMI.toFixed(2)}<br>Phân loại: ${phanLoai}`;
+    }
+    </script>
+</body>
+
+</html>

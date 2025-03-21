@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện tập if-else</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        select, button, input {
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #2e7d32;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #388e3c;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <h3>Chọn bài toán</h3>
+    <select id="exerciseSelect" onchange="showExercise()">
+        <option value="1">Bài 1: Chuyển từ độ C sang độ F</option>
+        <option value="2">Bài 2: Chuyển từ mét sang feet</option>
+        <option value="3">Bài 3: Tính diện tích hình vuông</option>
+        <option value="4">Bài 4: Tính diện tích hình chữ nhật</option>
+        <option value="5">Bài 5: Tính diện tích tam giác vuông</option>
+        <option value="6">Bài 6: Giải phương trình bậc 1</option>
+        <option value="7">Bài 7: Giải phương trình bậc 2</option>
+        <option value="8">Bài 8: Kiểm tra tuổi hợp lệ</option>
+        <option value="9">Bài 9: Kiểm tra 3 số có phải cạnh tam giác</option>
+        <option value="10">Bài 10: Tính giá điện</option>
+        <option value="11">Bài 11: Tính thuế thu nhập cá nhân</option>
+        <option value="12">Bài 12: Tính lãi ngân hàng</option>
+    </select>
+    
+    <div id="exerciseContainer"></div>
+
+    <script>
+        function showExercise() {
+            let container = document.getElementById("exerciseContainer");
+            let selected = document.getElementById("exerciseSelect").value;
+            let content = "";
+
+            switch (selected) {
+                case "1":
+                    content = '<input type="number" id="celsius" placeholder="Nhập độ C">' +
+                              '<button onclick="convertCToF()">Chuyển đổi</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "2":
+                    content = '<input type="number" id="meter" placeholder="Nhập mét">' +
+                              '<button onclick="convertMToFt()">Chuyển đổi</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "3":
+                    content = '<input type="number" id="side" placeholder="Nhập cạnh a">' +
+                              '<button onclick="calculateSquareArea()">Tính diện tích</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "4":
+                    content = '<input type="number" id="length" placeholder="Nhập cạnh a">' +
+                              '<input type="number" id="width" placeholder="Nhập cạnh b">' +
+                              '<button onclick="calculateRectangleArea()">Tính diện tích</button>' +
+                              '<p id="result"></p>';
+                    break;
+                    case "5":
+                    content = '<input type="number" id="a" placeholder="Nhập cạnh a">' +
+                              '<input type="number" id="b" placeholder="Nhập cạnh b">' +
+                              '<button onclick="calculateTriangleArea()">Tính diện tích</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "6":
+                    content = '<input type="number" id="a1" placeholder="Nhập a">' +
+                              '<input type="number" id="b1" placeholder="Nhập b">' +
+                              '<button onclick="solveLinearEquation()">Giải phương trình</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "7":
+                    content = '<input type="number" id="a2" placeholder="Nhập a">' +
+                              '<input type="number" id="b2" placeholder="Nhập b">' +
+                              '<input type="number" id="c2" placeholder="Nhập c">' +
+                              '<button onclick="solveQuadraticEquation()">Giải phương trình</button>' +
+                              '<p id="result"></p>';
+                    break;
+                    case "8":
+                    content = '<input type="number" id="age" placeholder="Nhập tuổi">' +
+                              '<button onclick="checkValidAge()">Kiểm tra</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "9":
+                    content = '<input type="number" id="a3" placeholder="Nhập cạnh a">' +
+                              '<input type="number" id="b3" placeholder="Nhập cạnh b">' +
+                              '<input type="number" id="c3" placeholder="Nhập cạnh c">' +
+                              '<button onclick="checkTriangle()">Kiểm tra</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "10":
+                    content = '<input type="number" id="kwh" placeholder="Nhập số kWh">' +
+                              '<button onclick="calculateElectricity()">Tính giá điện</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "11":
+                    content = '<input type="number" id="income" placeholder="Nhập thu nhập">' +
+                              '<button onclick="calculateTax()">Tính thuế</button>' +
+                              '<p id="result"></p>';
+                    break;
+                case "12":
+                    content = '<input type="number" id="principal" placeholder="Nhập số tiền ban đầu">' +
+                              '<input type="number" id="months" placeholder="Nhập số tháng">' +
+                              '<input type="number" id="rate" placeholder="Nhập lãi suất hàng tháng">' +
+                              '<button onclick="calculateBankInterest()">Tính lãi</button>' +
+                              '<p id="result"></p>';
+                    break;
+            }
+            container.innerHTML = content;
+        }
+        
+        //1
+        function convertCToF() {
+            let celsius = parseFloat(document.getElementById("celsius").value);
+            let fahrenheit = (celsius * 9/5) + 32;
+            document.getElementById("result").innerText = "Kết quả: " + fahrenheit + " °F";
+        }
+
+        //2
+        function convertMToFt() {
+            let meter = parseFloat(document.getElementById("meter").value);
+            let feet = meter * 3.2808;
+            document.getElementById("result").innerText = "Kết quả: " + feet + " ft";
+        }
+
+        //3
+        function calculateSquareArea() {
+            let side = parseFloat(document.getElementById("side").value);
+            let area = side * side;
+            document.getElementById("result").innerText = "Diện tích: " + area + " m²";
+        }
+
+        //4
+        function calculateRectangleArea() {
+            let length = parseFloat(document.getElementById("length").value);
+            let width = parseFloat(document.getElementById("width").value);
+            let area = length * width;
+            document.getElementById("result").innerText = "Diện tích: " + area + " m²";
+        }
+
+        //5
+        function calculateTriangleArea() {
+            let a = parseFloat(document.getElementById("a").value);
+            let b = parseFloat(document.getElementById("b").value);
+            let area = (a * b) / 2;
+            document.getElementById("result").innerText = "Diện tích: " + area + " m²";
+        }
+
+        //6
+        function solveLinearEquation() {
+            let a = parseFloat(document.getElementById("a1").value);
+            let b = parseFloat(document.getElementById("b1").value);
+            if (a === 0) {
+                document.getElementById("result").innerText = b === 0 ? "Phương trình vô số nghiệm" : "Phương trình vô nghiệm";
+            } else {
+                let x = -b / a;
+                document.getElementById("result").innerText = "Nghiệm x = " + x;
+            }
+        }
+
+        //7
+        function solveQuadraticEquation() {
+            let a = parseFloat(document.getElementById("a2").value);
+            let b = parseFloat(document.getElementById("b2").value);
+            let c = parseFloat(document.getElementById("c2").value);
+            let delta = b * b - 4 * a * c;
+            if (a === 0) {
+                document.getElementById("result").innerText = b === 0 ? "Phương trình vô nghiệm" : "Nghiệm x = " + (-c / b);
+            } else if (delta < 0) {
+                document.getElementById("result").innerText = "Phương trình vô nghiệm";
+            } else if (delta === 0) {
+                document.getElementById("result").innerText = "Nghiệm kép x = " + (-b / (2 * a));
+            } else {
+                let x1 = (-b + Math.sqrt(delta)) / (2 * a);
+                let x2 = (-b - Math.sqrt(delta)) / (2 * a);
+                document.getElementById("result").innerText = "Nghiệm x1 = " + x1 + ", x2 = " + x2;
+            }
+        }
+
+        //8
+        function checkValidAge() {
+            let age = parseInt(document.getElementById("age").value);
+            let result = (age > 0 && age < 120) ? "Hợp lệ" : "Không hợp lệ";
+            document.getElementById("result").innerText = result;
+        }
+
+        //9
+        function checkTriangle() {
+            let a = parseFloat(document.getElementById("a3").value);
+            let b = parseFloat(document.getElementById("b3").value);
+            let c = parseFloat(document.getElementById("c3").value);
+            let result = (a > 0 && b > 0 && c > 0 && a + b > c && a + c > b && b + c > a) ? "Là tam giác" : "Không phải tam giác";
+            document.getElementById("result").innerText = result;
+        }
+
+        //10
+        function calculateElectricity() {
+            let kwh = parseFloat(document.getElementById("kwh").value);
+            let price = kwh <= 50 ? kwh * 1678 : kwh <= 100 ? kwh * 1734 : kwh * 2014;
+            document.getElementById("result").innerText = "Giá điện: " + price.toLocaleString() + " VNĐ";
+        }
+
+        //11
+        function calculateTax() {
+            let income = parseFloat(document.getElementById("income").value);
+            let tax = income <= 5000000 ? income * 0.05 : income <= 10000000 ? income * 0.1 : income * 0.2;
+            document.getElementById("result").innerText = "Thuế: " + tax.toLocaleString() + " VNĐ";
+        }
+
+        //12
+        function calculateBankInterest() {
+            let principal = parseFloat(document.getElementById("principal").value);
+            let months = parseInt(document.getElementById("months").value);
+            let rate = parseFloat(document.getElementById("rate").value) / 100;
+            let total = principal * Math.pow((1 + rate), months);
+            document.getElementById("result").innerText = "Tổng số tiền: " + total.toLocaleString() + " VNĐ";
+        }
+    </script>
+</body>
+</html>
